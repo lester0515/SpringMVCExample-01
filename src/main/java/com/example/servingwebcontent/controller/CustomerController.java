@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.servingwebcontent.entity.Customer;
+import com.example.servingwebcontent.entity.ProvinceEntity;
 import com.example.servingwebcontent.form.CustomerForm;
 import com.example.servingwebcontent.repository.CustomerMapper;
+import com.example.servingwebcontent.repository.ProvinceEntityMapper;
 import com.google.gson.Gson;
 
 /**
@@ -29,6 +31,9 @@ public class CustomerController  {
 	
 	@Autowired
 	private CustomerMapper mapper;
+	
+	@Autowired
+	private ProvinceEntityMapper mapperProvince;
 
 	/**
 	 * Represents a sequence of characters. In this case, it is used to store a list of customer names.
@@ -55,6 +60,18 @@ public class CustomerController  {
 		return "list";
 	}
 
+	/**
+	 * The String class represents character strings.
+	 */
+	@GetMapping("/listProvince")
+	public String listProvName(Model model) {
+		String names = "provinces";
+		List<ProvinceEntity> list = mapperProvince.select(SelectDSLCompleter.allRows());
+		
+		model.addAttribute(names, list);
+		return "listProvince";
+	}
+	
 	/**
 	 * Returns a string representation of an object.
 	 *

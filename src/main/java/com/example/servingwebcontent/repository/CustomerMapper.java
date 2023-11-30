@@ -29,6 +29,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.CommonUpdateMapper;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 import com.example.servingwebcontent.entity.Customer;
+import com.example.servingwebcontent.entity.ProvinceEntity;
 
 import jakarta.annotation.Generated;
 
