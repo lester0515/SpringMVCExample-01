@@ -23,19 +23,19 @@
                 <legend class="col-form-label col-sm-2">操作</legend>
                 <div class="row mb-3 col-sm-10">
                     <div class="form-check col-sm-2">
-                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="add">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="add" onchange="updateHiddenValue(this)">
                         <label class="form-check-label" for="gridRadios1">
                             新建
                         </label>
                     </div>
                     <div class="form-check  col-sm-2">
-                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="edit">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="edit" onchange="updateHiddenValue(this)">
                         <label class="form-check-label" for="gridRadios2">
                             修改
                         </label>
                     </div>
                     <div class="form-check col-sm-2">
-                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="del">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="del" onchange="updateHiddenValue(this)">
                         <label class="form-check-label" for="gridRadios3">
                             删除
                         </label>
@@ -78,7 +78,7 @@
         <div class="modal fdae col-10" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
             tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <form>
+                <form action="#" th:action="@{/PartternB}" method="post">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="staticBackdropLabel">编辑区域</h1>
@@ -87,22 +87,23 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="countryCd" class="form-label">国码</label>
-                                <input type="text" class="form-control" id="countryCd">
+                                <input type="text" class="form-control" id="countryCd" name="countryCd">
                             </div>
                             <div class="mb-3">
                                 <label for="provCd" class="form-label">省编码</label>
-                                <input type="text" class="form-control" id="provCd">
+                                <input type="text" class="form-control" id="provCd" name="provCd">
                             </div>
                             <div class="mb-3">
                                 <label for="provName" class="form-label">省名称</label>
-                                <input type="text" class="form-control" id="provName">
+                                <input type="text" class="form-control" id="provName" name="provName">
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button id="closeModalBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button id="oprateBtn" type="button" class="btn btn-primary">执行</button>
+                            <button id="oprateBtn" type="submit" class="btn btn-primary">执行</button>
                         </div>
                     </div>
+                    <input type="hidden" name="syoriKbn" id="syoriKbn" value="" >
                 </form>
             </div>
         </div>

@@ -126,3 +126,8 @@ function getTableDatas() {
     },
   });
 }
+
+function updateHiddenValue(radio){
+	var hiddenInput = document.getElementById('syoriKbn');
+	hiddenInput.value = radio.value;
+}

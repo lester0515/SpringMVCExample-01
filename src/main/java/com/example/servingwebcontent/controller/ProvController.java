@@ -12,11 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.servingwebcontent.entity.ProvinceEntity;
 import com.example.servingwebcontent.form.CountrySearchForm;
+import com.example.servingwebcontent.form.ProvSearchForm;
 import com.example.servingwebcontent.repository.ProvinceEntityDynamicSqlSupport;
 import com.example.servingwebcontent.repository.ProvinceEntityMapper;
 import com.google.gson.Gson;
@@ -39,23 +41,23 @@ public class ProvController {
 
 		SelectStatementProvider selectStatement = select(ProvinceEntityMapper.selectList)
 				.from(ProvinceEntityDynamicSqlSupport.provinceEntity)
-				.where(ProvinceEntityDynamicSqlSupport.mstcountrycd, isEqualTo(countryId))
-				.build()
+				.where(ProvinceEntityDynamicSqlSupport.mstcountrycd, isEqualTo(countryId)).build()
 				.render(RenderingStrategies.MYBATIS3);
 
 		List<ProvinceEntity> list = mapper.selectMany(selectStatement);
 		String json = new Gson().toJson(list, List.class);
-		
+
 		return json;
 	}
 
 	@GetMapping("/prov/getRecord/{countryId}/{provinceId}")
 	@ResponseBody
-	public String getRecord(@PathVariable("countryId") String countryId, @PathVariable("provinceId") String provinceId) {
+	public String getRecord(@PathVariable("countryId") String countryId,
+			@PathVariable("provinceId") String provinceId) {
 
 		Optional<ProvinceEntity> entity = mapper.selectByPrimaryKey(provinceId, countryId);
 
-		if(entity.isEmpty()) {
+		if (entity.isEmpty()) {
 			// return bad request
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
@@ -63,5 +65,45 @@ public class ProvController {
 		String json = new Gson().toJson(entity.get());
 
 		return json;
+	}
+
+	@PostMapping("/PartternB")
+	public String doPartternB(ProvSearchForm form) {
+
+		switch (form.getSyoriKbn()) {
+			case "add":
+				addProv(form);
+				break;
+			case "edit":
+				editProv(form);
+				break;
+			case "del":
+				delProv(form);
+				break;
+		}
+
+		return "province/prov";
+	}
+	
+	private void addProv(ProvSearchForm form) {
+		ProvinceEntity entity = new ProvinceEntity();
+		entity.setMstcountrycd(form.getCountryCd());
+		entity.setProvcode(form.getProvCd());
+		entity.setProvname(form.getProvName());
+		
+		mapper.insert(entity);
+	}
+	
+	private void editProv(ProvSearchForm form) {
+		ProvinceEntity entity = new ProvinceEntity();
+		entity.setMstcountrycd(form.getCountryCd());
+		entity.setProvcode(form.getProvCd());
+		entity.setProvname(form.getProvName());
+		
+		mapper.updateByPrimaryKey(entity);
+	}
+	
+	private void delProv(ProvSearchForm form) {
+		mapper.deleteByPrimaryKey(form.getProvCd(), form.getCountryCd());
 	}
 }
